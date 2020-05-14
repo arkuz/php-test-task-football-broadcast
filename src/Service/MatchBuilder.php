@@ -110,6 +110,8 @@ class MatchBuilder
                 case 'startPeriod':
                     $period++;
 
+                    $minute--;
+
                     $players = $details['team1']['startPlayerNumbers'] ?? [];
                     if (count($players)) {
                         $this->goToPlay($match->getHomeTeam(), $players, $minute);
