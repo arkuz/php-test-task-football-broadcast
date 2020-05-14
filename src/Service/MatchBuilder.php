@@ -31,38 +31,31 @@ class MatchBuilder
         return $match;
     }
 
-    private function buildYellowCardsData(array $logs)
+    private function buildYellowCardsData(array $logs): array
     {
-        $yellowCardsData = [];
+        return $this->buildGoalsCardsArrayData($logs, 'yellowCard');
+    }
+
+    private function buildGoalsData(array $logs): array
+    {
+        return $this->buildGoalsCardsArrayData($logs, 'goal');
+    }
+
+    private function buildGoalsCardsArrayData(array $logs, $type): array
+    {
+        $elementsData = [];
         foreach ($logs as $event) {
-            if ($event['type'] === 'yellowCard') {
+            if ($event['type'] === $type) {
                 $el = $event['details'];
-                array_push($yellowCardsData, [
+                array_push($elementsData, [
                         'team' => $el['team'],
                         'number'   => $el['playerNumber']
                     ]
                 );
             }
         }
-        return $yellowCardsData;
+        return $elementsData;
     }
-
-    private function buildGoalsData(array $logs)
-    {
-        $goalsData = [];
-        foreach ($logs as $event) {
-            if ($event['type'] === 'goal') {
-                $el = $event['details'];
-                array_push($goalsData, [
-                    'team' => $el['team'],
-                    'number'   => $el['playerNumber']
-                    ]
-                );
-            }
-        }
-        return $goalsData;
-    }
-
 
     private function extractStartMatchEvent(array $logs): array
     {
