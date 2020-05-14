@@ -86,7 +86,9 @@
         <div class="col-md-4">
             {% import _self as render %}
             {{ render.renderTeamInfo(match.homeTeam, match) }}
+            {{ render.renderTeamTime(match.homeTeam) }}
             {{ render.renderTeamInfo(match.awayTeam, match) }}
+            {{ render.renderTeamTime(match.awayTeam) }}
         </div>
     </div>
 </div>
@@ -153,6 +155,87 @@
                         </td>
                     </tr>
                 {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro renderTeamTime(team) %}
+    <div class="card mb-3">
+        <div class="card-header text-center">
+            <div>
+                Время по позициям<br>
+                <strong>{{ team.name }}</strong>
+                {{ team.country }}
+            </div>
+            <div>
+                <small>{{ team.coach }}</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table">
+                <thead>
+                <tr>
+                    <th>Позиция</th>
+                    <th>Время</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% set vTime = 0 %}
+                {% set zTime = 0 %}
+                {% set pTime = 0 %}
+                {% set nTime = 0 %}
+
+                {% for player in team.players %}
+                    {% if player.position == "В" %}
+                        {% set vTime = vTime + player.playTime %}
+                    {% elseif player.position == "З" %}
+                        {% set zTime = zTime + player.playTime %}
+                    {% elseif player.position == "П" %}
+                        {% set pTime = pTime + player.playTime %}
+                    {% elseif player.position == "Н" %}
+                        {% set nTime = nTime + player.playTime %}
+                    {% endif %}
+                {% endfor %}
+
+                <tr>
+                    <td>
+                        Вратари
+                    </td>
+                    <td>
+                        {{ vTime }}’
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Защитники
+                    </td>
+                    <td>
+                        {{ zTime }}’
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Полузащитники
+                    </td>
+                    <td>
+                        {{ pTime }}’
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Нападающие
+                    </td>
+                    <td>
+                        {{ nTime }}’
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
         </div>
