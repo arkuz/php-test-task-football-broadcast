@@ -112,6 +112,7 @@
                     <th>Имя</th>
                     <th></th>
                     <th>Мячи</th>
+                    <th>Карточки</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -131,6 +132,21 @@
                                 {% if team.name == goal.team %}
                                     {% if player.number == goal.number %}
                                         <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/goal.png">
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% set count = 0 %}
+                            {% for card in match.yellowCardsArray %}
+                                {% if team.name == card.team %}
+                                    {% if player.number == card.number %}
+                                        {% set count = count + 1 %}
+                                        {% if count > 1 %}
+                                            <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/yellow_red.png">
+                                        {% else %}
+                                            <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/card.png">
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}

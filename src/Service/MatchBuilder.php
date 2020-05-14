@@ -23,9 +23,28 @@ class MatchBuilder
         $goalsData = $this->buildGoalsData($logs);
         $match->setGoalsArray($goalsData);
 
+        $yellowCardsData = $this->buildYellowCardsData($logs);
+        $match->setYellowCardsArray($yellowCardsData);
+
         $this->processLogs($match, $logs);
 
         return $match;
+    }
+
+    private function buildYellowCardsData(array $logs)
+    {
+        $yellowCardsData = [];
+        foreach ($logs as $event) {
+            if ($event['type'] === 'yellowCard') {
+                $el = $event['details'];
+                array_push($yellowCardsData, [
+                        'team' => $el['team'],
+                        'number'   => $el['playerNumber']
+                    ]
+                );
+            }
+        }
+        return $yellowCardsData;
     }
 
     private function buildGoalsData(array $logs)

@@ -28,6 +28,7 @@ class Match
     private Team $awayTeam;
     private array $messages;
     private array $goalsArray;
+    private array $yellowCardsArray;
 
     public function __construct(string $id, \DateTime $date, string $tournament, Stadium $stadium, Team $homeTeam, Team $awayTeam)
     {
@@ -39,6 +40,17 @@ class Match
         $this->awayTeam = $awayTeam;
         $this->messages = [];
         $this->goalsArray = [];
+        $this->yellowCardsArray = [];
+    }
+
+    public function setYellowCardsArray(array $ar): void
+    {
+        $this->yellowCardsArray = $ar;
+    }
+
+    public function getYellowCardsArray(): array
+    {
+        return $this->yellowCardsArray;
     }
 
     public function setGoalsArray(array $ar): void
