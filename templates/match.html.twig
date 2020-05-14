@@ -85,15 +85,15 @@
         </div>
         <div class="col-md-4">
             {% import _self as render %}
-            {{ render.renderTeamInfo(match.homeTeam) }}
-            {{ render.renderTeamInfo(match.awayTeam) }}
+            {{ render.renderTeamInfo(match.homeTeam, match) }}
+            {{ render.renderTeamInfo(match.awayTeam, match) }}
         </div>
     </div>
 </div>
 </body>
 </html>
 
-{% macro renderTeamInfo(team) %}
+{% macro renderTeamInfo(team, match) %}
     <div class="card mb-3">
         <div class="card-header text-center">
             <div>
@@ -111,6 +111,7 @@
                     <th>#</th>
                     <th>Имя</th>
                     <th></th>
+                    <th>Мячи</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -124,6 +125,15 @@
                         </td>
                         <td>
                             {{ player.playTime }}’
+                        </td>
+                        <td>
+                            {% for goal in match.goalsArray %}
+                                {% if team.name == goal.team %}
+                                    {% if player.number == goal.number %}
+                                        <img src="https://www.soccer.ru/sites/all/themes/newtheme/images/events-icons/goal.png">
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         </td>
                     </tr>
                 {% endfor %}

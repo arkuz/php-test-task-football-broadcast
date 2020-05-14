@@ -20,10 +20,30 @@ class MatchBuilder
         $awayTeam = $this->buildAwayTeam($event);
         $match = new Match($id, $dateTime, $tournament, $stadium, $homeTeam, $awayTeam);
 
+        $goalsData = $this->buildGoalsData($logs);
+        $match->setGoalsArray($goalsData);
+
         $this->processLogs($match, $logs);
 
         return $match;
     }
+
+    private function buildGoalsData(array $logs)
+    {
+        $goalsData = [];
+        foreach ($logs as $event) {
+            if ($event['type'] === 'goal') {
+                $el = $event['details'];
+                array_push($goalsData, [
+                    'team' => $el['team'],
+                    'number'   => $el['playerNumber']
+                    ]
+                );
+            }
+        }
+        return $goalsData;
+    }
+
 
     private function extractStartMatchEvent(array $logs): array
     {
